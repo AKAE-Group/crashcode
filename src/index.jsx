@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import QuizPage from './components/QuizPage.jsx';
-import MainContainer from './components/Containers/MainContainer.jsx';
+import QuizPage from './components/Quiz/QuizPage.jsx';
+import MainContainer from './components/Main/MainContainer.jsx';
 
 import App from './App.jsx';
 import './index.css';
