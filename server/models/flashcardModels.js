@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const MONGO_URI =
   'mongodb+srv://epithe:wvdXEE8Gg9gZ5Py@cluster0.aknji.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-mongoose
-  .connect(MONGO_URI, {
+mongoose.connect(MONGO_URI, {
     // options for the connect method to parse the URI
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -15,3 +14,32 @@ mongoose
     console.log('Connected to Mongo DB.');
   })
   .catch((err) => console.log(err));
+
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema ({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  cards: [{
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: 'card'
+    }
+  }]
+})
+
+const User = mongoose.model('user', userSchema);
+
+const cardSchema = new Schema ({
+  category: { type: String, required: true },
+  question: { type: String, required: true },
+  description: String,
+  answer: { type: String, required: true },
+})
+
+const Card = mongoose.model('card', cardSchema);
+
+module.exports = {
+  User,
+  Card
+}
