@@ -1,9 +1,10 @@
 import MainContainer from './components/Containers/MainContainer.jsx';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import React, { useState } from 'react';
+import { Link, Route, BrowserRouter, Routes } from 'react-router-dom';
 import './index.css';
-import SignInOutContainer from './components/SignInOutContainer.jsx';
-import QuizPage from './quizPage.jsx';
+import SignInOutContainer from './components/Authentication/SignInOutContainer.jsx';
+import QuizPage from './components/QuizPage.jsx';
 
 const queryClient = new QueryClient();
 
@@ -13,10 +14,20 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
-        <MainContainer />
+        <Link to="/main">Main Page</Link>
         <SignInOutContainer />
-        <QuizPage flashcards={flashcards} />
+        {/* <MainContainer /> */}
+        {/* <QuizPage flashcards={flashcards} /> */}
       </div>
+
+      {/* <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="quiz" element={<QuizPage flashcards={flashcards}/>} />
+      <Route path="main" element={<MainContainer />} />
+    </Routes>
+    <App />
+  </BrowserRouter> */}
     </QueryClientProvider>
   );
 }

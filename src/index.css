@@ -20,8 +20,8 @@ h3 {
   margin-bottom: 20px;
 }
 
-.QuizDisplay{
-  background-color: lightpink;
+.QuizDisplay {
+  background-color: white;
   margin-top: 10px;
   margin-right: auto;
   margin-left: auto;
@@ -34,3 +34,8 @@ h3 {
   height: 87vh;
 }
 
+.QuestionBox {
+  position: relative;
+  height: 75%;
+  width: 75%;
+}
