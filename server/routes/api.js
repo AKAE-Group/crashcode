@@ -17,7 +17,7 @@ router.get('/cards', crashcodeController.getCards, (req, res) => {
 })
 
 // createCards - '/cards'
-router.post('/cards', crashcodeController.createCard, crashcodeController.addCardToUser, crashcodeController.getCards, (req, res,) => {
+router.post('/cards', crashcodeController.createCard, crashcodeController.getCards, (req, res,) => {
     res.status(200).json(res.locals.cards);
 })
 
@@ -27,7 +27,7 @@ router.put('/cards', crashcodeController.updateCard, crashcodeController.getCard
 })
 
 // removeCard - '/cards/:id'
-router.delete('cards', crashcodeController.deleteCard, crashcodeController.getCards, (req, res) => {
+router.delete('/cards', crashcodeController.deleteCard, crashcodeController.getCards, (req, res) => {
     res.status(200).json(res.locals.cards);
 })
 
