@@ -15,28 +15,28 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const StyledContainer = styled(Container)`
+const StyledCont = styled(Container)`
   margin-top: 2rem;
 `;
 
-const CardsContainer = () => {
+const CardsContainer = (props) => {
   return (
     <>
       <CssBaseline />
-      <StyledContainer maxWidth="md">
+      <StyledCont maxWidth="md">
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}>
-            {Array.from(Array(6)).map((_, index) => (
+            {props.data.map((card, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                <Item>xs=2</Item>
+                <Item>{card.question}</Item>
               </Grid>
             ))}
           </Grid>
         </Box>
-      </StyledContainer>
+      </StyledCont>
     </>
   );
 };

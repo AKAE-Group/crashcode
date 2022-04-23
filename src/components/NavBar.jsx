@@ -42,11 +42,17 @@ const NavBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+            sx={{
+              mr: 1,
+              //   display: { xs: 'flex', md: 'center' },
+              fontFamily: 'Space Grotesk',
+              fontSize: '2rem',
+              marginLeft: '2rem',
+            }}>
             CrashCode
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -125,7 +131,7 @@ const NavBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>
