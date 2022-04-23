@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../NavBar.jsx';
+import NavBar from './NavBar.jsx';
 import styled from 'styled-components';
 import CardsContainer from './CardsContainer.jsx';
 import ActionsContainer from './ActionsContainer.jsx';

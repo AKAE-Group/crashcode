@@ -1,10 +1,10 @@
-import MainContainer from './components/Containers/MainContainer.jsx';
+import MainContainer from './components/Main/MainContainer.jsx';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import React, { useState } from 'react';
 import { Link, Route, BrowserRouter, Routes } from 'react-router-dom';
 import './index.css';
 import SignInOutContainer from './components/Authentication/SignInOutContainer.jsx';
-import QuizPage from './components/QuizPage.jsx';
+import QuizPage from './components/Quiz/QuizPage.jsx';
 
 const queryClient = new QueryClient();
 

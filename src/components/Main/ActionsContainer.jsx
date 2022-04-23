@@ -10,7 +10,7 @@ import {
   Select,
   Button,
 } from '@mui/material';
-import EditModal from '../EditModal.jsx';
+import NewCardModal from './NewCardModal.jsx';
 import CardsContainer from './CardsContainer.jsx';
 
 const StyledBox = styled(Box)`
@@ -96,7 +96,7 @@ const ActionsContainer = () => {
           </Link>
         </Button>
 
-        <EditModal />
+        <NewCardModal />
       </StyledBox>
       <CardsContainer data={DUMMY_DATA} category={category} />
     </>
