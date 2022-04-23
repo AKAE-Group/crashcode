@@ -2,7 +2,7 @@ import MainContainer from './components/Containers/MainContainer.jsx';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import React, { useState } from 'react';
 import './index.css';
-import SignInOutContainer from '.components/SignInOutContainer.jsx';
+import SignInOutContainer from '../src/components/SignInOutContainer.jsx';
 import QuizPage from './quizPage.jsx';
 
 const queryClient = new QueryClient();
