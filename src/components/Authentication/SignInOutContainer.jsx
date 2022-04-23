@@ -4,11 +4,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Login from './login.js'
-import Signup from './signup.jsx' 
-const SignInOutContainer=()=>{
-const [value,setValue]=useState(0)
-const handleChange = (event, newValue) => {
+import Login from './Login.jsx';
+import Signup from './Signup.jsx';
+
+const SignInOutContainer = () => {
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -41,7 +42,6 @@ const handleChange = (event, newValue) => {
         onChange={handleChange}
         aria-label="disabled tabs example">
         <Tab label="Sign In" />
-
         <Tab label="Sign Up" />
       </Tabs>
       <TabPanel value={value} index={0}>

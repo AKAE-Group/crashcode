@@ -3,6 +3,7 @@ import NavBar from '../NavBar.jsx';
 import styled from 'styled-components';
 import CardsContainer from './CardsContainer.jsx';
 import ActionsContainer from './ActionsContainer.jsx';
+import { Link, Outlet, BrowserRouter } from 'react-router-dom';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,6 +16,7 @@ const MainContainer = () => {
     <>
       <Wrapper>
         <NavBar />
+
         <ActionsContainer />
         {/* <CardsContainer /> */}
       </Wrapper>

@@ -9,31 +9,30 @@ import {
   Link,
 } from '@material-ui/core';
 
-import icon from '../images/codesmith.png';
+import icon from '../../images/codesmith.png';
 
 const Login = ({ handleChange }) => {
-  const paperStyle = { padding: 20, height: 450, width: 300, margin: '0 auto' };
+  const paperStyle = {
+    padding: 20,
+    height: 500,
+    width: 300,
+    margin: '0 auto',
+  };
   const btnstyle = { margin: '8px 0' };
   return (
     <Grid>
       <Paper style={paperStyle}>
         <Grid align="center">
           <img src={icon}></img>
-          <h1>CRASH COURSE</h1>
-          <h2>Sign In</h2>
+          <h1>CRASH CODE</h1>
+          <h2>WELCOME!</h2>
         </Grid>
-        <TextField
-          label="Username"
-          placeholder="Enter username"
-          fullWidth
-          required
-        />
+        <TextField label="Email" placeholder="Enter email" fullWidth />
         <TextField
           label="Password"
           placeholder="Enter password"
           type="password"
           fullWidth
-          required
         />
         <Button
           type="submit"
@@ -43,16 +42,14 @@ const Login = ({ handleChange }) => {
           fullWidth>
           Sign in
         </Button>
+        <h3></h3>
+        <Typography align="center"> </Typography>
         <Typography align="center">
           {' '}
-          <Link href="#"> Forgot password </Link>
-        </Typography>
-        <Typography align="center">
-          {' '}
-          Do you have an account?
+          Don't have an account?
           <Link href="#" onClick={() => handleChange('event', 1)}>
             {' '}
-            Sign Up
+            SIGN UP
           </Link>
         </Typography>
       </Paper>

@@ -49,7 +49,7 @@ const NavBar = () => {
               fontSize: '2rem',
               marginLeft: '2rem',
             }}>
-            CrashCode
+            crashCode
           </Typography>
 
           {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import {
   Box,
   InputLabel,
@@ -90,7 +91,9 @@ const ActionsContainer = () => {
           </Select>
         </FormControl>
         <Button variant="contained" color="success" size="large">
-          Start Quiz!
+          <Link to="/quiz" style={{ textDecoration: 'none', color: 'white' }}>
+            Start Quiz
+          </Link>
         </Button>
 
         <EditModal />
