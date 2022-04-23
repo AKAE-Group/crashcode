@@ -19,3 +19,18 @@ code {
 h3 {
   margin-bottom: 20px;
 }
+
+.QuizDisplay{
+  background-color: lightpink;
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: dotted;
+  width: 50vh;
+  height: 87vh;
+}
+
