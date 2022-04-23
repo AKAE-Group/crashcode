@@ -20,17 +20,16 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema ({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  cards: [{
-    id: {
-      type: Schema.Types.ObjectId,
-      ref: 'card'
-    }
-  }]
 })
 
 const User = mongoose.model('user', userSchema);
 
 const cardSchema = new Schema ({
+  user: { _id: {
+      type: Schema.Types.ObjectId,
+      ref: 'user'
+    }
+  },
   category: { type: String, required: true },
   question: { type: String, required: true },
   description: String,
