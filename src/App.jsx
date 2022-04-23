@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './index.css';
+import SignInOutContainer from '.components/SignInOutContainer.jsx';
 import  QuizPage  from './quizPage.jsx';
 
 
@@ -8,6 +9,7 @@ function App() {
 
   return (
     <div className="App">
+      <SignInOutContainer />
       <QuizPage flashcards = {flashcards}/>
     </div>
   )
