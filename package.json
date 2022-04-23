@@ -1,7 +1,7 @@
 {
-  "name": "storeroom",
+  "name": "crashcode",
   "version": "1.0.0",
-  "description": "A management app for laboratory supplies and equipment",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack serve --open\""
   },
-  "author": "Andrew Widjaja",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -17,11 +17,11 @@
     "antd": "^4.19.5",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "mongoose": "^6.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-google-login": "^5.2.2",
     "react-redux": "^8.0.0",
     "styled-components": "^5.3.5"
   },
