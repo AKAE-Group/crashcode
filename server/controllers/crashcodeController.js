@@ -25,10 +25,12 @@ crashcodeController.addUser = async (req, res, next) => {
 // controller to get all cards associated with a user
 crashcodeController.getCards = async (req, res, next) => {
     try {
-        const userId = req.query.id;
+        let userId;
+        if (!res.locals.userId) userId = req.params.id;
+        else userId = res.locals.userId;
         const data = await models.User.findOne({_id: `${userId}`}) // TODO: find cards associated with particular user
         console.log("data", data.cards);
-        // res.locals.cards = data.cards;
+        res.locals.cards = data.cards;
         return next();
     } catch (error) {
         console.log(error);
@@ -61,6 +63,7 @@ crashcodeController.createCard = async (req, res, next) => {
     })
 }
 
+// adds card to user card list
 crashcodeController.addCardToUser = (req, res, next) => {
     models.User.findByIdAndUpdate({_id: `${res.locals.userId}`}, {cards: {_id: `${res.locals.cardId}`}}, (err, user) => {
         if (err) {
@@ -72,6 +75,44 @@ crashcodeController.addCardToUser = (req, res, next) => {
         }
         else {
             console.log("Card added to user");
+            return next();
+        }
+    })
+}
+
+// updates card
+crashcodeController.updateCard = async (req, res, next) => {
+    const { userId, cardId, category, question, description, answer }  = req.body;
+    models.Card.findByIdAndUpdate({_id: `${cardId}`}, { category, question, description, answer})
+    .then((data) => {
+        console.log("card updated");
+        res.locals.userId = userId;
+        return next();
+    })
+    .catch((err) => {
+        console.log(err);
+        return next({
+            log: 'crashcodeController.updateCard',
+            message: {err: 'Error in crashcodeController.updateCard'}
+        })
+    })
+}
+
+crashcodeController.deleteCard = async (req, res, next) => {
+    const { userId, cardId } = req.body;
+    models.Card.create({ category, question, description, answer }, (err, card) => {
+        if (err) {
+            console.log(err);
+            return next({
+                log: 'crashcodeController.deleteCard',
+                message: {err: 'Error in crashcodeController.deleteCard'}
+            })
+        }
+        else {
+            console.log("Card delete");
+            res.locals.userId = userId;
+            res.locals.cardId = card._id;
+            console.log(res.locals.cardId)
             return next();
         }
     })

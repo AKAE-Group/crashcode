@@ -22,7 +22,13 @@ router.post('/cards', crashcodeController.createCard, crashcodeController.addCar
 })
 
 // updateCard - '/cards/:id'
+router.put('/cards', crashcodeController.updateCard, crashcodeController.getCards, (req, res) => {
+    res.status(200).json(res.locals.cards);
+})
 
 // removeCard - '/cards/:id'
+router.delete('cards', crashcodeController.deleteCard, crashcodeController.getCards, (req, res) => {
+    res.status(200).json(res.locals.cards);
+})
 
 module.exports = router;
