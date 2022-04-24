@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { TextField, Box, Button, Modal } from '@mui/material';
+import { useQuery, useMutation } from 'react-query';
+import regeneratorRuntime from 'regenerator-runtime';
+import styled from 'styled-components';
 
 const style = {
   position: 'absolute',
@@ -13,12 +16,20 @@ const style = {
   p: 4,
 };
 
-const EditModal = () => {
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NewCardModal = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [questionText, setQuestionText] = React.useState('');
   const [answerText, setAnswerText] = React.useState('');
+  const [descriptionText, setDescriptionText] = React.useState('');
+  const [allCards, setAllCards] = React.useState();
 
   const handleQuestionChange = (event) => {
     setQuestionText(event.target.value);
@@ -26,11 +37,45 @@ const EditModal = () => {
   const handleAnswerChange = (event) => {
     setAnswerText(event.target.value);
   };
+  const handleDescriptionChange = (event) => {
+    setDescriptionText(event.target.value);
+  };
 
-  const handleSubmit = (event) => {};
+  const addCard = async () => {
+    const res = await fetch('/api/cards', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    const content = await res.json();
+
+    console.log(content); // response should be an array of updated Cards list
+  };
+
+  const handleSubmit = async () => {
+    const res = await fetch('/api/cards', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: '6264847b0c004122dd1841f9',
+        category: props.category,
+        question: questionText,
+        description: descriptionText,
+        answer: answerText,
+      }),
+    });
+    const cardsList = await res.json();
+    setAllCards(cardsList);
+    setOpen(false);
+  };
 
   return (
-    <div>
+    <Wrapper>
       <Button onClick={handleOpen}>Add a Flashcard</Button>
       <Modal
         open={open}
@@ -64,14 +109,23 @@ const EditModal = () => {
                 onChange={handleAnswerChange}
                 // defaultValue="Default Value"
               />
-              <Button>Submit</Button>
+              <TextField
+                id="description"
+                label="Description"
+                multiline
+                rows={4}
+                value={descriptionText}
+                onChange={handleDescriptionChange}
+                // defaultValue="Default Value"
+              />
+              <Button onClick={handleSubmit}>Submit</Button>
               <Button onClick={handleClose}>Cancel</Button>
             </div>
           </Box>
         </Box>
       </Modal>
-    </div>
+    </Wrapper>
   );
 };
 
-export default EditModal;
+export default NewCardModal;

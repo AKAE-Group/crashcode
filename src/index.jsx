@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
 import QuizPage from './components/Quiz/QuizPage.jsx';
 import MainContainer from './components/Main/MainContainer.jsx';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 import App from './App.jsx';
 import './index.css';
@@ -32,15 +35,17 @@ const SAMPLE_FLASHCARDS = [
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route
-        path="quiz"
-        element={<QuizPage flashcards={SAMPLE_FLASHCARDS} />}
-      />
-      <Route path="main" element={<MainContainer />} />
-    </Routes>
-    {/* <App /> */}
-  </BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route
+          path="quiz"
+          element={<QuizPage flashcards={SAMPLE_FLASHCARDS} />}
+        />
+        <Route path="main" element={<MainContainer />} />
+      </Routes>
+      {/* <App /> */}
+    </BrowserRouter>
+  </QueryClientProvider>
 );
