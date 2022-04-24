@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 
-const SignInOutContainer = () => {
+const SignInOutContainer = ({ userId, setAccount }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);

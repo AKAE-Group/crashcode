@@ -22,6 +22,7 @@ const Signup = () => {
         </Grid>
         <form>
           <TextField fullWidth label="Email" placeholder="Enter your email" />
+          /** pull out the email attached here **\
           <TextField
             fullWidth
             label="Password"

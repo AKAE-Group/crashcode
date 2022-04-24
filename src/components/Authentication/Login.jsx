@@ -11,6 +11,13 @@ import {
 
 import icon from '../../images/codesmith.png';
 
+// after you create a user , save user in state?
+
+const userLogin = ({ userId }) => {
+  userId.username = '';
+  userId.password = '';
+};
+
 const Login = ({ handleChange }) => {
   const paperStyle = {
     padding: 20,
@@ -18,7 +25,9 @@ const Login = ({ handleChange }) => {
     width: 300,
     margin: '0 auto',
   };
-  const btnstyle = { margin: '8px 0' };
+
+  const btnstyle = { margin: '10px 0' };
+
   return (
     <Grid>
       <Paper style={paperStyle}>
