@@ -1,91 +1,114 @@
 import React, { useState, useEffect } from 'react';
-import { experimentalStyled as styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import { useQuery } from 'react-query';
-// import styled from 'styled-components';
+import styled from 'styled-components';
+import { useQuery, useMutation } from 'react-query';
+import { Link } from 'react-router-dom';
+import {
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Button,
+  Typography,
+} from '@mui/material';
+import NewCardModal from './NewCardModal.jsx';
+import CardsList from './CardsList.jsx';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-const StyledCont = styled(Container)`
+const StyledBox = styled(Box)`
+  width: 500;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  gap: 1rem;
   margin-top: 2rem;
 `;
 
-const handleDelete = (cardId) => {
-  console.log(cardId);
-  fetch('/api/cards', {
-    method: 'DELETE',
-    body: {
-      userId: '6264847b0c004122dd1841f9',
-      cardId: cardId,
-    },
-  });
-};
-
-const CardsContainer = (props) => {
+const CardsContainer = () => {
+  const [category, setCategory] = useState();
   const [allCards, setAllCards] = useState();
   const [filteredCards, setFilteredCards] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleDelete = (cardId) => {
+    // userId is hard-coded in for now. Need to change after auth is set up
+    console.log(cardId);
+    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }).then(fetchCards());
+  };
 
   const fetchCards = () => {
-    setIsLoading(true);
     fetch('/api/cards?id=6264847b0c004122dd1841f9')
       .then((res) => res.json())
-      .then((data) => setAllCards(data))
-      .then(setIsLoading(false));
+      .then((data) => setAllCards(data));
   };
 
   useEffect(() => {
     fetchCards();
-  }, [isLoading]);
+  }, []);
 
   useEffect(() => {
     const filtered = [];
     if (allCards) {
       for (const card of allCards) {
-        if (card.category === props.category) {
+        if (card.category === category) {
           filtered.push(card);
         }
       }
       setFilteredCards(filtered);
     }
-  }, [props.category, allCards]);
+  }, [category, allCards]);
 
   return (
     <>
-      <CssBaseline />
-      <StyledCont maxWidth="md">
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}>
-            {props.category === 'none' && <div>Select a category to begin</div>}
-            {filteredCards &&
-              filteredCards.map((card, index) => (
-                <Grid
-                  item
-                  xs={2}
-                  sm={4}
-                  md={4}
-                  key={card._id}
-                  onClick={() => handleDelete(card._id)}>
-                  <Item>{card.question}</Item>
-                </Grid>
-              ))}
-          </Grid>
-        </Box>
-      </StyledCont>
+      <StyledBox sx={{ width: 300 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          gutterBottom
+          alignSelf="center">
+          Select a category to begin:
+        </Typography>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="category">Category</InputLabel>
+          <Select
+            labelId="category"
+            id="category"
+            value={category}
+            label="category"
+            onChange={handleChange}>
+            <MenuItem value={'javascript'}>JavaScript Basics</MenuItem>
+            <MenuItem value={'react'}>React</MenuItem>
+            <MenuItem value={'express'}>Express</MenuItem>
+          </Select>
+        </FormControl>
+        {category && (
+          <Button variant="contained" color="success" size="large">
+            <Link to="/quiz" style={{ textDecoration: 'none', color: 'white' }}>
+              Start Quiz!
+            </Link>
+          </Button>
+        )}
+
+        {category && (
+          <NewCardModal category={category} fetchCards={fetchCards} />
+        )}
+      </StyledBox>
+      <CardsList
+        category={category}
+        filteredCards={filteredCards}
+        handleDelete={handleDelete}
+      />
     </>
   );
 };
+
 export default CardsContainer;
