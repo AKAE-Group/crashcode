@@ -26,7 +26,6 @@ const StyledBox = styled(Box)`
 
 const ActionsContainer = () => {
   const [category, setCategory] = useState();
-  const [rerender, setRerender] = useState(false);
 
   const handleChange = (event) => {
     setCategory(event.target.value);
