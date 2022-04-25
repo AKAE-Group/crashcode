@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useQuery, useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -14,6 +13,7 @@ import {
 import NewCardModal from './NewCardModal.jsx';
 import CardsList from './CardsList.jsx';
 
+// Using styled-components to style the Box
 const StyledBox = styled(Box)`
   width: 500;
   display: flex;
@@ -25,35 +25,31 @@ const StyledBox = styled(Box)`
 `;
 
 const CardsContainer = () => {
+  // State to hold the selected category from the drop-down menu
   const [category, setCategory] = useState();
+  // State to hold all cards fetched from the database
   const [allCards, setAllCards] = useState();
+  // State to hold only the cards that match the selected category
   const [filteredCards, setFilteredCards] = useState();
 
+  // Handler to change category state based on drop-down menu selection
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
 
-  const handleDelete = (cardId) => {
-    // userId is hard-coded in for now. Need to change after auth is set up
-    console.log(cardId);
-    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    }).then(fetchCards());
-  };
-
+  // GET request to fetch all cards from the database
   const fetchCards = () => {
     fetch('/api/cards?id=6264847b0c004122dd1841f9')
       .then((res) => res.json())
       .then((data) => setAllCards(data));
   };
 
+  // Invoke fetchCards only once upon render
   useEffect(() => {
     fetchCards();
   }, []);
 
+  // Filter out the cards for selected category. Invoked everytime category or allCards states change.
   useEffect(() => {
     const filtered = [];
     if (allCards) {
@@ -65,6 +61,18 @@ const CardsContainer = () => {
       setFilteredCards(filtered);
     }
   }, [category, allCards]);
+
+  // Delete handler which takes in the cardId, sends DELETE request to server
+  const handleDelete = (cardId) => {
+    // userId is hard-coded in for now. Need to change after auth is set up
+    console.log(cardId);
+    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }).then(fetchCards());
+  };
 
   return (
     <>
@@ -87,7 +95,10 @@ const CardsContainer = () => {
             onChange={handleChange}>
             <MenuItem value={'javascript'}>JavaScript Basics</MenuItem>
             <MenuItem value={'react'}>React</MenuItem>
+            <MenuItem value={'redux'}>Redux</MenuItem>
             <MenuItem value={'express'}>Express</MenuItem>
+            <MenuItem value={'css'}>CSS</MenuItem>
+            <MenuItem value={'sql'}>SQL</MenuItem>
           </Select>
         </FormControl>
         {category && (
@@ -99,13 +110,20 @@ const CardsContainer = () => {
         )}
 
         {category && (
-          <NewCardModal category={category} fetchCards={fetchCards} />
+          <NewCardModal
+            category={category}
+            fetchCards={fetchCards}
+            setAllCards={setAllCards}
+          />
         )}
       </StyledBox>
+
       <CardsList
         category={category}
         filteredCards={filteredCards}
         handleDelete={handleDelete}
+        fetchCards={fetchCards}
+        setAllCards={setAllCards}
       />
     </>
   );

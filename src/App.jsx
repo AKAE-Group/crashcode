@@ -11,10 +11,14 @@ function App() {
   const [account, setAccount] = useState('');
   const [token, setToken] = useState();
 
-  if(!token) {
-    return <SignInOutContainer setToken={setToken} />
+  if (!token) {
+    return (
+      <>
+        <Link to="/main">Main Page</Link>
+        <SignInOutContainer setToken={setToken} />
+      </>
+    );
   }
-
 
   return (
     <div className="App">
