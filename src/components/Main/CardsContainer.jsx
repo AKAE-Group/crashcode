@@ -95,7 +95,10 @@ const CardsContainer = () => {
             onChange={handleChange}>
             <MenuItem value={'javascript'}>JavaScript Basics</MenuItem>
             <MenuItem value={'react'}>React</MenuItem>
+            <MenuItem value={'redux'}>Redux</MenuItem>
             <MenuItem value={'express'}>Express</MenuItem>
+            <MenuItem value={'css'}>CSS</MenuItem>
+            <MenuItem value={'sql'}>SQL</MenuItem>
           </Select>
         </FormControl>
         {category && (

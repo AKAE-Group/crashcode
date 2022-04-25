@@ -12,12 +12,10 @@ const Wrapper = styled.div`
 
 const MainContainer = () => {
   return (
-    <>
-      <Wrapper>
-        <NavBar />
-        <CardsContainer />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <NavBar />
+      <CardsContainer />
+    </Wrapper>
   );
 };
 
