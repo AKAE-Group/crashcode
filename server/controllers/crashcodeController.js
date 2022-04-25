@@ -1,14 +1,17 @@
 const { Mongoose } = require('mongoose');
 const models = require('../models/flashcardModels');
+const bcrypt = require('bcryptjs');
 
 const crashcodeController = {};
 
 // adduser controller to create user
 crashcodeController.addUser = async (req, res, next) => {
   const { username, password } = req.body;
-  models.User.create({ username, password }, (err, user) => {
+  await models.User.create({ username, password }, (err, user) => {
     if (err) {
       console.log(err);
+      res.locals.signUpSuccessful = false;
+      res.locals.isLoggedIn = false;
       return next({
         log: 'crashcodeController.addUser',
         message: { err: 'Error in crashcodeController.addUser' },
@@ -16,23 +19,32 @@ crashcodeController.addUser = async (req, res, next) => {
     } else {
       console.log('User created');
       res.locals.userId = user._id;
+      res.locals.signUpSuccessful = true;
+      res.locals.isLoggedIn = true;
       return next();
     }
   });
 };
 
 // userlogin controller
-// crashcodeController.userLogin = async (req, res, next) => {
-//     if (err) {
-//       console.log(err);
-//       return next({
-
-//       });
-//     } else {
-
-//       return next();
-//     }
-// };
+crashcodeController.authenticateUser = async (req, res, next) => {
+    const { username, password } = req.body;
+    const user = await models.User.findOne({ username: `${username}`});
+    bcrypt.compare(password, user.password, function(err, isMatch) {
+        if (err || !isMatch) {
+            console.log("passwords do not match")
+            res.locals.isLoggedIn = false;
+            return next({
+                log: 'crashcodeController.authenticateUser',
+                message: {err: "crashcodeController.authenticateUser ERROR: wrong password"}
+            })
+        } else {
+            res.locals.userId = user._id;
+            res.locals.isLoggedIn = true;
+            return next()
+        }
+    })
+}
 
 // controller to get all cards associated with a user
 crashcodeController.getCards = async (req, res, next) => {
@@ -40,13 +52,10 @@ crashcodeController.getCards = async (req, res, next) => {
     let userId;
     if (!res.locals.userId) userId = req.query.id;
     else userId = res.locals.userId;
-    // console.log(userId);
     const data = await models.Card.find({ 'user._id': `${userId}` });
-    // console.log('data', data);
     res.locals.cards = data;
     return next();
   } catch (error) {
-    // console.log(error);
     return next({
       log: 'crashcodeController.getCards',
       message: { err: 'Error in crashcodeController.getCards' },
@@ -62,16 +71,13 @@ crashcodeController.createCard = async (req, res, next) => {
     { user: { _id: `${userId}` }, category, question, description, answer },
     (err, card) => {
       if (err) {
-        // console.log(err);
         return next({
           log: 'crashcodeController.createCard',
           message: { err: 'Error in crashcodeController.createCard' },
         });
       } else {
-        // console.log('Card created');
         res.locals.userId = userId;
         res.locals.cardId = card._id;
-        // console.log(res.locals.cardId);
         return next();
       }
     }
@@ -86,12 +92,10 @@ crashcodeController.updateCard = async (req, res, next) => {
     { category, question, description, answer }
   )
     .then((data) => {
-      // console.log('card updated');
       res.locals.userId = userId;
       return next();
     })
     .catch((err) => {
-      // console.log(err);
       return next({
         log: 'crashcodeController.updateCard',
         message: { err: 'Error in crashcodeController.updateCard' },
@@ -105,7 +109,6 @@ crashcodeController.deleteCard = async (req, res, next) => {
   console.log(userId, cardId);
   models.Card.deleteOne({ _id: `${cardId}` }, (err, card) => {
     if (err) {
-      // console.log(err);
       return next({
         log: 'crashcodeController.deleteCard',
         message: { err: 'Error in crashcodeController.deleteCard' },
@@ -119,24 +122,5 @@ crashcodeController.deleteCard = async (req, res, next) => {
     }
   });
 };
-// crashcodeController.deleteCard = async (req, res, next) => {
-//   const { userId, cardId } = req.body;
-//   console.log(userId, cardId);
-//   models.Card.deleteOne({ _id: `${cardId}` }, (err, card) => {
-//     if (err) {
-//       // console.log(err);
-//       return next({
-//         log: 'crashcodeController.deleteCard',
-//         message: { err: 'Error in crashcodeController.deleteCard' },
-//       });
-//     } else {
-//       console.log('Card deleted');
-//       res.locals.userId = userId;
-//       res.locals.cardId = card._id;
-//       console.log(res.locals.cardId);
-//       return next();
-//     }
-//   });
-// };
 
 module.exports = crashcodeController;

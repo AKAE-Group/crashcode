@@ -4,10 +4,8 @@ const MONGO_URI =
   'mongodb+srv://epithe:wvdXEE8Gg9gZ5Py@cluster0.aknji.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(MONGO_URI, {
-    // options for the connect method to parse the URI
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    // sets the name of the DB that our collections are part of
     dbName: 'Crashcode',
   })
   .then(() => {
@@ -17,9 +15,27 @@ mongoose.connect(MONGO_URI, {
 
 const Schema = mongoose.Schema;
 
+const SALT_WORK_FACTOR = 10;
+const bcrypt = require('bcryptjs');
+
 const userSchema = new Schema ({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+})
+
+// encrypts password on signup
+userSchema.pre('save', function(next) {
+  const user = this;
+  bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err,hash) {
+    if(err) {
+      console.log('bcrypt error')
+      return next();  
+    }
+    else {
+      user.password = hash;
+      return next();
+    }
+  })
 })
 
 const User = mongoose.model('user', userSchema);
