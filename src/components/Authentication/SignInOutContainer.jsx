@@ -6,12 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
+import MainContainer from '../Main/MainContainer.jsx';
 
 const SignInOutContainer = ({ userId, setAccount, setToken }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [showMain, setShowMain] = useState(false)
 
   const paperStyle = { width: 340, margin: '20px auto' };
   function TabPanel(props) {
@@ -34,23 +36,28 @@ const SignInOutContainer = ({ userId, setAccount, setToken }) => {
   }
 
   return (
-    <Paper elevation={20} style={paperStyle}>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="disabled tabs example">
-        <Tab label="Sign Up" />
-        <Tab label="Sign In" />
-      </Tabs>
-      <TabPanel value={value} index={1}>
-        <Login handleChange={handleChange} setToken={setToken} /> 
-      </TabPanel>
-      <TabPanel value={value} index={0}>
-        <Signup />
-      </TabPanel>
-    </Paper>
+    <div>
+      { showMain === true && <MainContainer />}
+      { showMain === false && (
+      <Paper elevation={20} style={paperStyle}>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="disabled tabs example">
+          <Tab label="Sign Up" />
+          <Tab label="Sign In" />
+        </Tabs>
+        <TabPanel value={value} index={1}>
+          <Login setShowMain={setShowMain} /> 
+        </TabPanel>
+        <TabPanel value={value} index={0}>
+          <Signup setShowMain={setShowMain} />
+        </TabPanel>
+      </Paper>
+      )}
+    </div>
   );
 };
 

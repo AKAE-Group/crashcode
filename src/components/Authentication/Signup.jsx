@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Grid, Paper, Avatar, Typography, TextField, Button } from '@material-ui/core';
+import { Grid, Paper, Avatar, TextField, Button } from '@material-ui/core';
+import MainContainer from '../Main/MainContainer.jsx';
 
 const Signup = () => {
 
@@ -11,46 +12,58 @@ const Signup = () => {
   // setting local state for the app
   const [Username, setUserName] = useState();
   const [Password, setPassword] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState('false');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-  const handleSubmit = async ( { Username, Password, isLoggedIn } ) => {
-    const res = await fetch('/users/signup', {
+  const handleSubmit = () => {
+    const body = {
+      username: Username,
+      password: Password
+    }
+    console.log('body', body);
+    
+    fetch('api/users/signup', {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: Username,
-        password: Password
-      })
-      .then(response => response.json())
-      .then(data => { console.log('Successful login:', data) })
-      .then(() => { if(data) { setIsLoggedIn('true') } })
-      .catch((error) => {
-        console.log(error('Error: ', error));
-      })
-    });
+      body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(data => { 
+      console.log('Successful login:', data)
+      if(data.isLoggedIn) { 
+        setIsLoggedIn(true)
+        setUserId(data.userId)
+        console.log('User ID check', data.userId); 
+      }
+    })
+    .catch((error) => {
+      console.log('Error: ', error);
+    })
   };
 
   return (
-    <Grid>
-      <Paper style={paperStyle}>
-        <Grid align="center">
-          <Avatar style={avatarStyle}></Avatar>
-          <h2 style={headerStyle}>Sign Up</h2>
-        </Grid>
-        <form>
-          <TextField fullWidth label="Email" placeholder="Enter your email" value = {Username} onChange={event => setUserName(event.target.value)}/>
-          <TextField fullWidth label="Password" placeholder="Enter your password" value = {Password} onChange={event => setPassword(event.target.value)}/>
-          <h3></h3>
-          <Button type="submit" variant="contained" color="primary" fullWidth onClick={handleSubmit}>
-            Sign up
-          </Button>
-        </form>
-      </Paper>
-    </Grid>
+    <div>
+      { isLoggedIn === true && <MainContainer />}
+      { isLoggedIn === false && (
+      <Grid>
+        <Paper style={paperStyle}>
+          <Grid align="center">
+            <Avatar style={avatarStyle}></Avatar>
+            <h2 style={headerStyle}>Sign Up</h2>
+          </Grid>
+          <form>
+            <TextField fullWidth label="Email" placeholder="Enter your email" value = {Username} onChange={event => setUserName(event.target.value)}/>
+            <TextField fullWidth label="Password" placeholder="Enter your password" value = {Password} onChange={event => setPassword(event.target.value)}/>
+            <h3></h3>
+            <Button type="submit" variant="contained" color="primary" fullWidth onClick={handleSubmit}>
+              Sign up
+            </Button>
+          </form>
+        </Paper>
+      </Grid>
+      )}
+    </div>
   );
 };
 
