@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useLocation} from 'react-router-dom';
 
 import CodeMirror, { fromCodePoint } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 
+
 function QuizPage({ flashcards }) {
+  // added for carrying state from main route to quiz route 
+  const { category } = useParams();
+  //console.log('passed category: ', category);
+
   const [flip, setFlip] = useState(false);
   const [count, setCount] = useState(0);
+  const [limit, setLimit] = useState();
+  
+  //fetch card
+  const [notes, setNotes] = useState([{
+    category: '',
+  }])
+  const [filteredCards, setFilteredCards] = useState();
 
+  useEffect(() => {
+    const filtered = [];
+    fetch('/api/cards?id=6264847b0c004122dd1841f9')
+    .then(res => res.json())
+    .then(data => data.filter(card => card.category === category))
+    .then(data => {
+      setNotes(data)
+      setLimit(data.length)});
+  });
+
+  //
   function displayQuestion() {
     setFlip(false);
-    if (count === flashcards.length - 1) setCount(0);
+    if (count === limit - 1) setCount(0);
     else setCount(count + 1);
   }
+
 
   return (
     <div className="QuizDisplay">
@@ -28,7 +52,7 @@ function QuizPage({ flashcards }) {
       <Card className="Questionbox">
         <CardContent>
           <Typography>
-            {flip ? flashcards[count].answer : flashcards[count].question}
+            {flip ? notes[count].answer : notes[count].question}
           </Typography>
         </CardContent>
         <CardActions>

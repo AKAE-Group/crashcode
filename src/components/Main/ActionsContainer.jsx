@@ -14,6 +14,7 @@ import {
 import NewCardModal from './NewCardModal.jsx';
 import CardsContainer from './CardsContainer.jsx';
 
+
 const StyledBox = styled(Box)`
   /* min-width: 120;
   max-width: 500; */
@@ -60,7 +61,7 @@ const ActionsContainer = () => {
         </FormControl>
         {category && (
           <Button variant="contained" color="success" size="large">
-            <Link to="/quiz" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to ={{pathname: `/quiz/${category}`}} style={{ textDecoration: 'none', color: 'white' }}>
               Start Quiz!
             </Link>
           </Button>

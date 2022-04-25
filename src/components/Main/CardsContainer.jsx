@@ -60,6 +60,8 @@ const CardsContainer = (props) => {
     }
   }, [props.category, allCards]);
 
+  
+
   return (
     <>
       <CssBaseline />
