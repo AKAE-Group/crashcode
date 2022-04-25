@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Grid, Paper, Avatar, TextField, Button } from '@material-ui/core';
 import MainContainer from '../Main/MainContainer.jsx';
 import GoogleOAuth from './GoogleOAuth.jsx';
+import styled from 'styled-components';
+
+const StyledGoogle = styled(GoogleOAuth)`
+  margin-top: 1rem;
+`;
 
 const Signup = ({ setUserId, setShowMain }) => {
   //styling of the apps and button
@@ -55,7 +60,7 @@ const Signup = ({ setUserId, setShowMain }) => {
             <form>
               <TextField
                 fullWidth
-                label="Email"
+                label="Username"
                 placeholder="Enter your email"
                 value={Username}
                 onChange={(event) => setUserName(event.target.value)}
@@ -72,12 +77,13 @@ const Signup = ({ setUserId, setShowMain }) => {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={handleSubmit}>
+                onClick={handleSubmit}
+                style={{ marginBottom: '1rem', marginTop: '1rem' }}>
                 Sign up
               </Button>
 
               {/* OAuth is not fully functional yet */}
-              <GoogleOAuth />
+              <StyledGoogle />
             </form>
           </Paper>
         </Grid>

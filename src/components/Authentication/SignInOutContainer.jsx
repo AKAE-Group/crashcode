@@ -49,7 +49,7 @@ const SignInOutContainer = ({ setAccount, setToken }) => {
             onChange={handleChange}
             aria-label="disabled tabs example">
             <Tab label="Sign Up" />
-            <Tab label="Sign In" />
+            <Tab label="Log In" />
           </Tabs>
           <TabPanel value={value} index={1}>
             <Login setShowMain={setShowMain} setUserId={setUserId} />
