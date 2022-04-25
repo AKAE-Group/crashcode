@@ -6,10 +6,15 @@ const crashcodeController = require('../controllers/crashcodeController');
 
 // controllers go here
 
-// addUser - '/users
+// addUser - '/users'
 router.post('/users', crashcodeController.addUser, (req, res) => {
     res.status(200).json(res.locals.userId);
 })
+
+// authenticateUser - '/user'
+router.post('/users'), crashcodeController.authenticateUser, (req, res) => {
+    res.status(200).json(res.locals.userId);
+}
 
 // getCards - '/cards' // should take in user as parameter
 router.get('/cards', crashcodeController.getCards, (req, res) => {

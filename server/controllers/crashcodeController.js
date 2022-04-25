@@ -21,18 +21,21 @@ crashcodeController.addUser = async (req, res, next) => {
   });
 };
 
-// userlogin controller
-// crashcodeController.userLogin = async (req, res, next) => {
-//     if (err) {
-//       console.log(err);
-//       return next({
-
-//       });
-//     } else {
-
-//       return next();
-//     }
-// };
+// controller to get user login 
+crashcodeController.authenticateUser = async (req, res, next) => {
+  const { username, password } = req.body;
+  models.User.findOne(
+    { username: `${username}`, password: `${password}` }
+  )
+  // needs to render to the MainContainer
+  .then((res.render('/main')))
+  .catch((err) => {
+    console.log(err);
+    // needs to render the login page again
+    res.render('/main')
+    return next();
+  });
+}
 
 // controller to get all cards associated with a user
 crashcodeController.getCards = async (req, res, next) => {

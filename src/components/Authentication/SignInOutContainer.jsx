@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 
-const SignInOutContainer = ({ userId, setAccount }) => {
+const SignInOutContainer = ({ userId, setAccount, setToken }) => {
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -41,13 +41,13 @@ const SignInOutContainer = ({ userId, setAccount }) => {
         textColor="primary"
         onChange={handleChange}
         aria-label="disabled tabs example">
-        <Tab label="Sign In" />
         <Tab label="Sign Up" />
+        <Tab label="Sign In" />
       </Tabs>
-      <TabPanel value={value} index={0}>
-        <Login handleChange={handleChange} />
-      </TabPanel>
       <TabPanel value={value} index={1}>
+        <Login handleChange={handleChange} setToken={setToken} /> 
+      </TabPanel>
+      <TabPanel value={value} index={0}>
         <Signup />
       </TabPanel>
     </Paper>
