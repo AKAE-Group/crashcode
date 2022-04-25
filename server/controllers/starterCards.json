@@ -1,34 +1,34 @@
 [
     {
-        "user": {},
+        "userId": "",
         "category": "JavaScript Basics",
         "question": "What is a variable?",
         "description": "",
         "answer": "A container for storing data."
     },
     {
-        "user": {},
+        "userId": "",
         "category": "JavaScript Basics",
         "question": "Write a function to output the numbers 0 through 5",
         "description": "",
         "answer": "for (let i = 0; i <= 5; i++) {\n console.log(i) \n}"
     },
     {
-        "user": {},
+        "userId": "",
         "category": "JavaScript Basics",
         "question": "What is a function?",
         "description": "",
         "answer": "A block of code designed to perform a particular task which is executed when invoked."
     },
     {
-        "user": {},
+        "userId": "",
         "category": "JavaScript Basics",
         "question": "What does the forEach method do?",
         "description": "",
         "answer": "It calls a function for each element in an array."
     },
     {
-        "user": {},
+        "userId": "",
         "category": "JavaScript Basics",
         "question": "What is the key advantage of Object Oriented Programming?",
         "description": "",
