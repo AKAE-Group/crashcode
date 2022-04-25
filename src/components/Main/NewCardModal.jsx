@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { TextField, Box, Button, Modal } from '@mui/material';
-import { useQuery, useMutation } from 'react-query';
 import regeneratorRuntime from 'regenerator-runtime';
 import styled from 'styled-components';
 
+// Created separate style object for the Modal
 const style = {
   position: 'absolute',
   top: '50%',
@@ -16,21 +16,25 @@ const style = {
   p: 4,
 };
 
+// Using styled-components to style the wrapper div
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const NewCardModal = ({ category, fetchCards }) => {
-  const [open, setOpen] = React.useState(false);
+const NewCardModal = ({ category, fetchCards, setAllCards }) => {
+  // State and handler functions to control Modal display
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [questionText, setQuestionText] = React.useState('');
-  const [answerText, setAnswerText] = React.useState('');
-  const [descriptionText, setDescriptionText] = React.useState('');
-  const [allCards, setAllCards] = React.useState();
 
+  // Set of states to store Text values prior to submission
+  const [questionText, setQuestionText] = useState('');
+  const [answerText, setAnswerText] = useState('');
+  const [descriptionText, setDescriptionText] = useState('');
+
+  // Set of state mutators to store Text values in state prior to submission
   const handleQuestionChange = (event) => {
     setQuestionText(event.target.value);
   };
@@ -41,6 +45,7 @@ const NewCardModal = ({ category, fetchCards }) => {
     setDescriptionText(event.target.value);
   };
 
+  // POST request to submit the creation text fields
   const addCard = async () => {
     const res = await fetch('/api/cards', {
       method: 'POST',
@@ -57,9 +62,11 @@ const NewCardModal = ({ category, fetchCards }) => {
       }),
     }).then(fetchCards());
     const cardsList = await res.json();
+    // Updates the allCards state to allow for re-render
     setAllCards(cardsList);
   };
 
+  // Handler for when confirm button is clicked
   const handleSubmit = () => {
     addCard();
     setOpen(false);
@@ -86,6 +93,7 @@ const NewCardModal = ({ category, fetchCards }) => {
                 id="question"
                 label="Question"
                 multiline
+                required
                 maxRows={4}
                 value={questionText}
                 onChange={handleQuestionChange}
@@ -95,15 +103,16 @@ const NewCardModal = ({ category, fetchCards }) => {
                 id="answer"
                 label="Answer"
                 multiline
-                rows={4}
+                required
+                rows={6}
                 value={answerText}
                 onChange={handleAnswerChange}
               />
               <TextField
                 id="description"
-                label="Description"
+                label="Notes"
                 multiline
-                rows={4}
+                rows={3}
                 value={descriptionText}
                 onChange={handleDescriptionChange}
               />

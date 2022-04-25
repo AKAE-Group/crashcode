@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import {
   Box,
@@ -21,6 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+// Created separate style object for the Modal
 const style = {
   position: 'absolute',
   top: '50%',
@@ -28,7 +29,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 600,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  // border: '2px solid #000',
   boxShadow: 24,
   p: 4,
   display: 'flex',
@@ -41,6 +42,7 @@ const StyledCont = styled(Container)`
   margin-top: 2rem;
 `;
 
+// Destructuring props passed in from CardsContainer.jsx
 const CardsList = ({
   category,
   filteredCards,
@@ -48,15 +50,17 @@ const CardsList = ({
   fetchCards,
   setAllCards,
 }) => {
-  const [selectedCard, setSelectedCard] = useState();
+  // State to hold the selected card's id, for the update/delete requests
+  const [selectedCardId, setSelectedCardId] = useState();
+  // Set of states to store Text values prior to submission
   const [questionText, setQuestionText] = useState('');
   const [answerText, setAnswerText] = useState('');
   const [descriptionText, setDescriptionText] = useState('');
-
+  // State and close handler to control Modal display
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // Set of state mutators to store Text values in state prior to submission
   const handleQuestionChange = (event) => {
     setQuestionText(event.target.value);
   };
@@ -67,6 +71,7 @@ const CardsList = ({
     setDescriptionText(event.target.value);
   };
 
+  // PUT request to submit the update text fields
   const updateCard = async (cardId) => {
     const res = await fetch('/api/cards', {
       method: 'PUT',
@@ -84,24 +89,26 @@ const CardsList = ({
       }),
     }).then(fetchCards());
     const cardsList = await res.json();
+    // Updates the allCards state to allow for re-render
     setAllCards(cardsList);
   };
 
+  // Handler for when a card is clicked
   const handleClick = (cardId) => {
-    setSelectedCard(cardId);
-    // handleDelete(cardId);
-    handleOpen();
+    setSelectedCardId(cardId);
+    setOpen(true);
   };
 
+  // Handler for when Delete confirm button is clicked
   const handleConfirm = () => {
-    handleDelete(selectedCard);
+    handleDelete(selectedCardId);
     handleClose();
   };
 
+  // Handler for when Update confirm button is clicked
   const handleSubmit = () => {
-    // insert POST request here, passing in selectedCard
-    updateCard(selectedCard);
-    setOpen(false);
+    updateCard(selectedCardId);
+    handleClose();
   };
 
   return (
@@ -114,6 +121,7 @@ const CardsList = ({
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}>
             {category === 'none' && <div>Select a category to begin</div>}
+
             {filteredCards &&
               filteredCards.map((card) => (
                 <>
@@ -129,6 +137,7 @@ const CardsList = ({
                 </>
               ))}
 
+            {/* Modal displayed only after a card clicked */}
             <Modal
               open={open}
               onClose={handleClose}
@@ -138,15 +147,22 @@ const CardsList = ({
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { m: 1, width: '50ch' },
+                    '& .MuiTextField-root': { m: 1, width: '55ch' },
                   }}
                   noValidate
                   autoComplete="off">
                   <div>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2">
+                      Enter new details to update the flashcard
+                    </Typography>
                     <TextField
                       id="question"
                       label="Question"
                       multiline
+                      required
                       maxRows={4}
                       value={questionText}
                       onChange={handleQuestionChange}
@@ -156,33 +172,44 @@ const CardsList = ({
                       id="answer"
                       label="Answer"
                       multiline
-                      rows={4}
+                      required
+                      rows={6}
                       value={answerText}
                       onChange={handleAnswerChange}
                     />
                     <TextField
                       id="description"
-                      label="Description"
+                      label="Notes"
                       multiline
-                      rows={4}
+                      rows={3}
                       value={descriptionText}
                       onChange={handleDescriptionChange}
                     />
-                    <Button onClick={handleSubmit}>Update</Button>
-                    <Button onClick={handleClose}>Cancel</Button>
                   </div>
                 </Box>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Delete this flashcard?
-                </Typography>
-                <Stack spacing={2} direction="row" marginTop="2rem">
-                  <Button variant="text" onClick={handleConfirm}>
-                    {/* <Button variant="outlined" onClick={handleClose}> */}
-                    Confirm
+                <Stack
+                  direction="row"
+                  marginTop="2rem"
+                  display="flex"
+                  width="55ch"
+                  justifyContent="space-between">
+                  <div>
+                    <Button
+                      onClick={handleSubmit}
+                      variant="contained"
+                      style={{ marginRight: '1rem' }}>
+                      Update
+                    </Button>
+                    <Button onClick={handleClose} variant="outlined">
+                      Cancel
+                    </Button>
+                  </div>
+                  <Button variant="text" color="error" onClick={handleConfirm}>
+                    Delete
                   </Button>
-                  <Button variant="outlined" onClick={handleClose}>
+                  {/* <Button variant="outlined" onClick={handleClose}>
                     Cancel
-                  </Button>
+                  </Button> */}
                 </Stack>
               </Box>
             </Modal>
