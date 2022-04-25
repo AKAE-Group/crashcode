@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 
 import App from './App.jsx';
 import './index.css';
+import SignInOutContainer from './components/Authentication/SignInOutContainer.jsx';
 
 const SAMPLE_FLASHCARDS = [
   {
@@ -39,6 +40,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+
         <Route path="/main" element={<MainContainer />} />
         <Route
           path="/quiz/:category"

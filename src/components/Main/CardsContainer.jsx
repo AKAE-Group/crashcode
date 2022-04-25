@@ -24,7 +24,7 @@ const StyledBox = styled(Box)`
   margin-top: 2rem;
 `;
 
-const CardsContainer = () => {
+const CardsContainer = ({ userId }) => {
   // State to hold the selected category from the drop-down menu
   const [category, setCategory] = useState();
   // State to hold all cards fetched from the database
@@ -39,9 +39,12 @@ const CardsContainer = () => {
 
   // GET request to fetch all cards from the database
   const fetchCards = () => {
-    fetch('/api/cards?id=6264847b0c004122dd1841f9')
+    fetch(`/api/cards?id=${userId}`)
       .then((res) => res.json())
-      .then((data) => setAllCards(data));
+      .then((data) => {
+        console.log('got cards', data);
+        setAllCards(data);
+      });
   };
 
   // Invoke fetchCards only once upon render
@@ -66,7 +69,7 @@ const CardsContainer = () => {
   const handleDelete = (cardId) => {
     // userId is hard-coded in for now. Need to change after auth is set up
     console.log(cardId);
-    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
+    fetch(`/api/cards/${userId}/${cardId}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',
@@ -102,9 +105,12 @@ const CardsContainer = () => {
           </Select>
         </FormControl>
         {category && (
-          <Button variant="contained" color="success" size="large">
-            <Link to={{pathname: `/quiz/${category}`}} state={{cards: filteredCards}} style={{ textDecoration: 'none', color: 'white' }}>
-              Start Quiz!
+          <Button variant="contained" color="primary" size="large">
+            <Link
+              to={{ pathname: `/quiz/${category}` }}
+              state={{ cards: filteredCards, userId: userId }}
+              style={{ textDecoration: 'none', color: 'white' }}>
+              <Typography color="common.white"> Start Quiz! </Typography>
             </Link>
           </Button>
         )}
@@ -114,6 +120,7 @@ const CardsContainer = () => {
             category={category}
             fetchCards={fetchCards}
             setAllCards={setAllCards}
+            userId={userId}
           />
         )}
       </StyledBox>
@@ -124,6 +131,7 @@ const CardsContainer = () => {
         handleDelete={handleDelete}
         fetchCards={fetchCards}
         setAllCards={setAllCards}
+        userId={userId}
       />
     </>
   );

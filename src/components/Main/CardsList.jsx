@@ -49,6 +49,7 @@ const CardsList = ({
   handleDelete,
   fetchCards,
   setAllCards,
+  userId,
 }) => {
   // State to hold the selected card's id, for the update/delete requests
   const [selectedCardId, setSelectedCardId] = useState();
@@ -80,7 +81,7 @@ const CardsList = ({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: '6264847b0c004122dd1841f9',
+        userId: userId,
         cardId: cardId,
         category: category,
         question: questionText,

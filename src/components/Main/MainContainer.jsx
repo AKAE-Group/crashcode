@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './NavBar.jsx';
 import styled from 'styled-components';
 import CardsContainer from './CardsContainer.jsx';
+import Cookies from 'js-cookie';
 
 // Used styled-components to style the div wrapper
 const Wrapper = styled.div`
@@ -11,10 +12,14 @@ const Wrapper = styled.div`
 `;
 
 const MainContainer = () => {
+  let cookieId = Cookies.get('userId');
+  cookieId = cookieId.slice(3, -1);
+  console.log('cookieId', cookieId);
+
   return (
     <Wrapper>
       <NavBar />
-      <CardsContainer />
+      <CardsContainer userId={cookieId} />
     </Wrapper>
   );
 };

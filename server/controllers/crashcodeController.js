@@ -13,7 +13,7 @@ crashcodeController.addUser = async (req, res, next) => {
       console.log(err);
       res.locals.signUpSuccessful = false;
       res.locals.isLoggedIn = false;
-      res.locals.userId = "";
+      res.locals.userId = '';
       return next({
         log: 'crashcodeController.addUser',
         message: { err: 'Error in crashcodeController.addUser' },
@@ -29,11 +29,10 @@ crashcodeController.addUser = async (req, res, next) => {
 };
 
 crashcodeController.intializeCards = (req, res, next) => {
-  console.log("stuck in the middleware with you")
   const cards = JSON.parse(fs.readFileSync(`${__dirname}/starterCards.json`));
   for (let i = 0; i < cards.length; i++) {
     let card = cards[i];
-    console.log("adding card number ", i);
+    console.log('adding card number ', i);
     const userId = res.locals.userId;
     let { category, question, description, answer } = card;
     models.Card.create(
@@ -43,32 +42,36 @@ crashcodeController.intializeCards = (req, res, next) => {
           return next({
             log: 'crashcodeController.createCard',
             message: { err: 'Error in crashcodeController.createCard' },
-          })}
+          });
+        }
       }
     );
   }
   return next();
-}
+};
 
 // userlogin controller
 crashcodeController.authenticateUser = async (req, res, next) => {
-    const { username, password } = req.body;
-    const user = await models.User.findOne({ username: `${username}`});
-    bcrypt.compare(password, user.password, function(err, isMatch) {
-        if (err || !isMatch) {
-            console.log("passwords do not match")
-            res.locals.isLoggedIn = false;
-            return next({
-                log: 'crashcodeController.authenticateUser',
-                message: {err: "crashcodeController.authenticateUser ERROR: wrong password"}
-            })
-        } else {
-            res.locals.userId = user._id;
-            res.locals.isLoggedIn = true;
-            return next()
-        }
-    })
-}
+  const { username, password } = req.body;
+  const user = await models.User.findOne({ username: `${username}` });
+  bcrypt.compare(password, user.password, function (err, isMatch) {
+    if (err || !isMatch) {
+      console.log('passwords do not match');
+      res.locals.isLoggedIn = false;
+      return next({
+        log: 'crashcodeController.authenticateUser',
+        message: {
+          err: 'crashcodeController.authenticateUser ERROR: wrong password',
+        },
+      });
+    } else {
+      res.locals.userId = user._id;
+      res.cookie('userId', res.locals.userId);
+      res.locals.isLoggedIn = true;
+      return next();
+    }
+  });
+};
 
 // controller to get all cards associated with a user
 crashcodeController.getCards = async (req, res, next) => {

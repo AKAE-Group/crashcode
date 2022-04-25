@@ -1,37 +1,100 @@
 [
-    {
-        "userId": "",
-        "category": "JavaScript Basics",
-        "question": "What is a variable?",
-        "description": "",
-        "answer": "A container for storing data."
-    },
-    {
-        "userId": "",
-        "category": "JavaScript Basics",
-        "question": "Write a function to output the numbers 0 through 5",
-        "description": "",
-        "answer": "for (let i = 0; i <= 5; i++) {\n console.log(i) \n}"
-    },
-    {
-        "userId": "",
-        "category": "JavaScript Basics",
-        "question": "What is a function?",
-        "description": "",
-        "answer": "A block of code designed to perform a particular task which is executed when invoked."
-    },
-    {
-        "userId": "",
-        "category": "JavaScript Basics",
-        "question": "What does the forEach method do?",
-        "description": "",
-        "answer": "It calls a function for each element in an array."
-    },
-    {
-        "userId": "",
-        "category": "JavaScript Basics",
-        "question": "What is the key advantage of Object Oriented Programming?",
-        "description": "",
-        "answer": "Object Oriented Programming pairs data with functionality."
-    }
+  {
+    "userId": "",
+    "category": "javascript",
+    "question": "What is a variable?",
+    "description": "",
+    "answer": "A container for storing data."
+  },
+  {
+    "userId": "",
+    "category": "javascript",
+    "question": "Write a function to output the numbers 0 through 5",
+    "description": "",
+    "answer": "for (let i = 0; i <= 5; i++) {\n console.log(i) \n}"
+  },
+  {
+    "userId": "",
+    "category": "javascript",
+    "question": "What is a function?",
+    "description": "",
+    "answer": "A block of code designed to perform a particular task which is executed when invoked."
+  },
+  {
+    "userId": "",
+    "category": "javascript",
+    "question": "What does the forEach method do?",
+    "description": "",
+    "answer": "It calls a function for each element in an array."
+  },
+  {
+    "userId": "",
+    "category": "javascript",
+    "question": "What is the key advantage of Object Oriented Programming?",
+    "description": "",
+    "answer": "Object Oriented Programming pairs data with functionality."
+  },
+  {
+    "userId": "",
+    "category": "react",
+    "question": "What is the key advantage of Object Oriented Programming?",
+    "description": "",
+    "answer": "Object Oriented Programming pairs data with functionality."
+  },
+  {
+    "userId": "",
+    "category": "react",
+    "question": "Create a functional component called Title which renders an h1 that says 'Hello'",
+    "description": "",
+    "answer": "const Title = () => { return <h1>Hello</h1> }"
+  },
+  {
+    "userId": "",
+    "category": "express",
+    "question": "Write a route handler for a GET request to the endpoint '/home'",
+    "description": "",
+    "answer": "app.get('/home', (req, res) => { res.status(200) } )"
+  },
+  {
+    "userId": "",
+    "category": "express",
+    "question": "Write a route handler for a POST request to the endpoint '/home'",
+    "description": "",
+    "answer": "app.post('/home', (req, res) => { res.status(200) } )"
+  },
+  {
+    "userId": "",
+    "category": "redux",
+    "question": "What do you need to wrap around your root App component to give it access to global state?",
+    "description": "",
+    "answer": "<Provider store={store}> <App /> </Provider>"
+  },
+  {
+    "userId": "",
+    "category": "css",
+    "question": "How can you horizontally and vertically center a div using flexbox?",
+    "description": "",
+    "answer": "div {display: flex; justify-content: center; align-items: center"
+  },
+  {
+    "userId": "",
+    "category": "sql",
+    "question": "Write a SQL query that grabs all rows from a table",
+    "description": "",
+    "answer": "SELECT * FROM table_name"
+  },
+  {
+    "userId": "",
+    "category": "sql",
+    "question": "Write a SQL query that grabs all rows from a table where the name is 'Anna'",
+    "description": "",
+    "answer": "SELECT * FROM table_name WHERE name=Anna"
+  },
+  {
+    "userId": "",
+    "category": "css",
+    "question": "Style a button so that all of its default styling is removed",
+    "description": "",
+    "answer": "button { all: unset }"
+  }
 ]
