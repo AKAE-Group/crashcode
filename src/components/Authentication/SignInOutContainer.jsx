@@ -8,12 +8,14 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import MainContainer from '../Main/MainContainer.jsx';
 
-const SignInOutContainer = ({ userId, setAccount, setToken }) => {
+const SignInOutContainer = ({ setAccount, setToken }) => {
+  const [userId, setUserId] = useState();
+
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [showMain, setShowMain] = useState(false)
+  const [showMain, setShowMain] = useState(false);
 
   const paperStyle = { width: 340, margin: '20px auto' };
   function TabPanel(props) {
@@ -37,25 +39,25 @@ const SignInOutContainer = ({ userId, setAccount, setToken }) => {
 
   return (
     <div>
-      { showMain === true && <MainContainer />}
-      { showMain === false && (
-      <Paper elevation={20} style={paperStyle}>
-        <Tabs
-          value={value}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={handleChange}
-          aria-label="disabled tabs example">
-          <Tab label="Sign Up" />
-          <Tab label="Sign In" />
-        </Tabs>
-        <TabPanel value={value} index={1}>
-          <Login setShowMain={setShowMain} /> 
-        </TabPanel>
-        <TabPanel value={value} index={0}>
-          <Signup setShowMain={setShowMain} />
-        </TabPanel>
-      </Paper>
+      {showMain === true && <MainContainer userId={userId} />}
+      {showMain === false && (
+        <Paper elevation={20} style={paperStyle}>
+          <Tabs
+            value={value}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={handleChange}
+            aria-label="disabled tabs example">
+            <Tab label="Sign Up" />
+            <Tab label="Sign In" />
+          </Tabs>
+          <TabPanel value={value} index={1}>
+            <Login setShowMain={setShowMain} setUserId={setUserId} />
+          </TabPanel>
+          <TabPanel value={value} index={0}>
+            <Signup setShowMain={setShowMain} setUserId={setUserId} />
+          </TabPanel>
+        </Paper>
       )}
     </div>
   );

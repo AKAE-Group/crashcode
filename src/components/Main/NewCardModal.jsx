@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const NewCardModal = ({ category, fetchCards, setAllCards }) => {
+const NewCardModal = ({ category, fetchCards, setAllCards, userId }) => {
   // State and handler functions to control Modal display
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -54,7 +54,7 @@ const NewCardModal = ({ category, fetchCards, setAllCards }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: '6264847b0c004122dd1841f9',
+        userId: userId,
         category: category,
         question: questionText,
         description: descriptionText,

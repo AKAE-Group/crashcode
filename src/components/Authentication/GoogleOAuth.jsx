@@ -4,7 +4,7 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 const clientId =
   '870413778352-3vtpln31uiods5s2v0epiioj72i624k8.apps.googleusercontent.com';
 
-function LoginOAuth() {
+function GoogleOAuth() {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
 
@@ -13,7 +13,7 @@ function LoginOAuth() {
     console.log('Login Success:', res.profileObj);
     setShowloginButton(false);
     setShowlogoutButton(true);
-    // Modify state to logged in
+    // Modify state to be logged in
   };
 
   const onLoginFailure = (res) => {
@@ -25,7 +25,7 @@ function LoginOAuth() {
     console.clear();
     setShowloginButton(true);
     setShowlogoutButton(false);
-    // Modify state to logged out
+    // Modify state to be logged out
   };
 
   return (
@@ -50,4 +50,4 @@ function LoginOAuth() {
     </div>
   );
 }
-export default LoginOAuth;
+export default GoogleOAuth;
