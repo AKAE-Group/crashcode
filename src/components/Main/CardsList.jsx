@@ -42,47 +42,52 @@ const StyledCont = styled(Container)`
   margin-top: 2rem;
 `;
 
-const CardsContainer = (props) => {
-  const [allCards, setAllCards] = useState();
-  const [filteredCards, setFilteredCards] = useState();
+const CardsList = ({ category, filteredCards, handleDelete }) => {
+  // const [allCards, setAllCards] = useState();
+  // const [filteredCards, setFilteredCards] = useState();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleDelete = (cardId) => {
-    // userId is hard-coded in for now. Need to change after auth is set up
-    console.log(cardId);
-    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
+  // const handleDelete = (cardId) => {
+  //   // userId is hard-coded in for now. Need to change after auth is set up
+  //   console.log(cardId);
+  //   fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //     },
+  //   }).then(fetchCards());
+  //   handleOpen();
+  // };
+
+  // const fetchCards = () => {
+  //   fetch('/api/cards?id=6264847b0c004122dd1841f9')
+  //     .then((res) => res.json())
+  //     .then((data) => setAllCards(data));
+  // };
+
+  // useEffect(() => {
+  //   fetchCards();
+  // }, []);
+
+  // useEffect(() => {
+  //   const filtered = [];
+  //   if (allCards) {
+  //     for (const card of allCards) {
+  //       if (card.category === props.category) {
+  //         filtered.push(card);
+  //       }
+  //     }
+  //     setFilteredCards(filtered);
+  //   }
+  // }, [props.category, allCards]);
+
+  const handleClick = (cardId) => {
+    handleDelete(cardId);
     handleOpen();
   };
-
-  const fetchCards = () => {
-    fetch('/api/cards?id=6264847b0c004122dd1841f9')
-      .then((res) => res.json())
-      .then((data) => setAllCards(data));
-  };
-
-  useEffect(() => {
-    fetchCards();
-  }, []);
-
-  useEffect(() => {
-    const filtered = [];
-    if (allCards) {
-      for (const card of allCards) {
-        if (card.category === props.category) {
-          filtered.push(card);
-        }
-      }
-      setFilteredCards(filtered);
-    }
-  }, [props.category, allCards]);
 
   return (
     <>
@@ -93,7 +98,7 @@ const CardsContainer = (props) => {
             container
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}>
-            {props.category === 'none' && <div>Select a category to begin</div>}
+            {category === 'none' && <div>Select a category to begin</div>}
             {filteredCards &&
               filteredCards.map((card) => (
                 <>
@@ -103,7 +108,7 @@ const CardsContainer = (props) => {
                     sm={4}
                     md={4}
                     key={card._id}
-                    onClick={() => handleDelete(card._id)}>
+                    onClick={() => handleClick(card._id)}>
                     <Item>{card.question}</Item>
                   </Grid>
 
@@ -135,4 +140,4 @@ const CardsContainer = (props) => {
     </>
   );
 };
-export default CardsContainer;
+export default CardsList;
