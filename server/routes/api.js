@@ -1,14 +1,22 @@
 const express = require('express');
 const path = require('path');
+const { nextTick } = require('process');
 const router = express.Router();
 
 const crashcodeController = require('../controllers/crashcodeController');
 
 // controllers go here
 
+// authenticateUser - '/user'
+router.post('/users/login',
+  crashcodeController.authenticateUser, 
+  (req, res) => {
+  res.status(200).json({userId: res.locals.userId, isLoggedIn: res.locals.isLoggedIn});
+});
+
 // addUser - '/users
-router.post('/users', crashcodeController.addUser, (req, res) => {
-  res.status(200).json(res.locals.userId);
+router.post('/users/signup', crashcodeController.addUser, (req, res) => {
+  res.status(200).json( {userId: res.locals.userId, signUpSuccessful: res.locals.signUpSuccessful, isLoggedIn: res.locals.isLoggedIn} );
 });
 
 // getCards - '/cards' // should take in user as parameter
