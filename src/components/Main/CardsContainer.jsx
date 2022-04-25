@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useQuery, useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
@@ -24,12 +24,47 @@ const StyledBox = styled(Box)`
   margin-top: 2rem;
 `;
 
-const ActionsContainer = () => {
+const CardsContainer = () => {
   const [category, setCategory] = useState();
+  const [allCards, setAllCards] = useState();
+  const [filteredCards, setFilteredCards] = useState();
 
   const handleChange = (event) => {
     setCategory(event.target.value);
   };
+
+  const handleDelete = (cardId) => {
+    // userId is hard-coded in for now. Need to change after auth is set up
+    console.log(cardId);
+    fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }).then(fetchCards());
+  };
+
+  const fetchCards = () => {
+    fetch('/api/cards?id=6264847b0c004122dd1841f9')
+      .then((res) => res.json())
+      .then((data) => setAllCards(data));
+  };
+
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
+  useEffect(() => {
+    const filtered = [];
+    if (allCards) {
+      for (const card of allCards) {
+        if (card.category === category) {
+          filtered.push(card);
+        }
+      }
+      setFilteredCards(filtered);
+    }
+  }, [category, allCards]);
 
   return (
     <>
@@ -63,11 +98,17 @@ const ActionsContainer = () => {
           </Button>
         )}
 
-        {category && <NewCardModal category={category} />}
+        {category && (
+          <NewCardModal category={category} fetchCards={fetchCards} />
+        )}
       </StyledBox>
-      <CardsList category={category} />
+      <CardsList
+        category={category}
+        filteredCards={filteredCards}
+        handleDelete={handleDelete}
+      />
     </>
   );
 };
 
-export default ActionsContainer;
+export default CardsContainer;
