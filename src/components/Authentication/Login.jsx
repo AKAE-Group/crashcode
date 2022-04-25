@@ -68,7 +68,7 @@ export default function Login({ setShowMain, setUserId }) {
               <h3>WELCOME!</h3>
             </Grid>
             <TextField
-              label="Email"
+              label="Username"
               placeholder="Enter email"
               fullWidth
               id="email"
@@ -89,7 +89,7 @@ export default function Login({ setShowMain, setUserId }) {
               style={btnstyle}
               onClick={() => handleSubmit(Username, Password, isLoggedIn)}
               fullWidth>
-              Sign in
+              Log in
             </Button>
             <Typography align="center"> </Typography>
           </Paper>

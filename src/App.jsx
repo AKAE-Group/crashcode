@@ -14,7 +14,7 @@ function App() {
   if (!token) {
     return (
       <>
-        <Link to="/main">Main Page</Link>
+        {/* <Link to="/main">Main Page</Link> */}
         <SignInOutContainer setToken={setToken} />
       </>
     );
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <Link to="/main">Main Page</Link>
+      {/* <Link to="/main">Main Page</Link> */}
 
       <SignInOutContainer userId={account} setAccount={setAccount} />
     </div>
