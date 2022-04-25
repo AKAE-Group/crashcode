@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const NewCardModal = (props) => {
+const NewCardModal = ({ category, fetchCards }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -50,12 +50,12 @@ const NewCardModal = (props) => {
       },
       body: JSON.stringify({
         userId: '6264847b0c004122dd1841f9',
-        category: props.category,
+        category: category,
         question: questionText,
         description: descriptionText,
         answer: answerText,
       }),
-    });
+    }).then(fetchCards());
     const cardsList = await res.json();
     setAllCards(cardsList);
   };
