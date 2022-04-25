@@ -1,6 +1,7 @@
 const { Mongoose } = require('mongoose');
 const models = require('../models/flashcardModels');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
 
 const crashcodeController = {};
 
@@ -12,6 +13,7 @@ crashcodeController.addUser = async (req, res, next) => {
       console.log(err);
       res.locals.signUpSuccessful = false;
       res.locals.isLoggedIn = false;
+      res.locals.userId = "";
       return next({
         log: 'crashcodeController.addUser',
         message: { err: 'Error in crashcodeController.addUser' },
@@ -25,6 +27,28 @@ crashcodeController.addUser = async (req, res, next) => {
     }
   });
 };
+
+crashcodeController.intializeCards = (req, res, next) => {
+  console.log("stuck in the middleware with you")
+  const cards = JSON.parse(fs.readFileSync(`${__dirname}/starterCards.json`));
+  for (let i = 0; i < cards.length; i++) {
+    let card = cards[i];
+    console.log("adding card number ", i);
+    const userId = res.locals.userId;
+    let { category, question, description, answer } = card;
+    models.Card.create(
+      { user: { _id: `${userId}` }, category, question, description, answer },
+      (err, card) => {
+        if (err) {
+          return next({
+            log: 'crashcodeController.createCard',
+            message: { err: 'Error in crashcodeController.createCard' },
+          })}
+      }
+    );
+  }
+  return next();
+}
 
 // userlogin controller
 crashcodeController.authenticateUser = async (req, res, next) => {

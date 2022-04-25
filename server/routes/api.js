@@ -1,10 +1,8 @@
 const express = require('express');
 const path = require('path');
-const { nextTick } = require('process');
 const router = express.Router();
 
 const crashcodeController = require('../controllers/crashcodeController');
-const fs = require('fs');
 
 // controllers go here
 
@@ -18,15 +16,7 @@ router.post('/users/login',
 // addUser - '/users
 router.post('/users/signup', 
   crashcodeController.addUser, 
-  // () => {
-  //   if (res.locals.signUpSuccessful === true) {
-  //     const cards = JSON.parse(fs.readFileSync(`../starterCards.json`));
-  //     cards.forEach((card) => {
-  //       card.user = res.locals.userId;
-
-  //     })
-  //   }
-  // }, 
+  crashcodeController.intializeCards, 
   (req, res) => {
   res.status(200).json({ userId: res.locals.userId, signUpSuccessful: res.locals.signUpSuccessful, isLoggedIn: res.locals.isLoggedIn });
 });
