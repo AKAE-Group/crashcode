@@ -103,7 +103,7 @@ const CardsContainer = () => {
         </FormControl>
         {category && (
           <Button variant="contained" color="success" size="large">
-            <Link to="/quiz" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link to={{pathname: `/quiz/${category}`}} state={{cards: filteredCards}} style={{ textDecoration: 'none', color: 'white' }}>
               Start Quiz!
             </Link>
           </Button>

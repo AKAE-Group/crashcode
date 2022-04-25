@@ -39,11 +39,11 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/main" element={<MainContainer />} />
         <Route
-          path="quiz"
+          path="/quiz/:category"
           element={<QuizPage flashcards={SAMPLE_FLASHCARDS} />}
         />
-        <Route path="main" element={<MainContainer />} />
       </Routes>
       {/* <App /> */}
     </BrowserRouter>
