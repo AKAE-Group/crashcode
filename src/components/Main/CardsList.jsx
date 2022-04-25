@@ -59,7 +59,7 @@ const CardsContainer = (props) => {
         'Content-type': 'application/json',
       },
     });
-    handleClose();
+    handleOpen();
   };
 
   const fetchCards = () => {
@@ -95,7 +95,7 @@ const CardsContainer = (props) => {
             columns={{ xs: 4, sm: 8, md: 12 }}>
             {props.category === 'none' && <div>Select a category to begin</div>}
             {filteredCards &&
-              filteredCards.map((card, index) => (
+              filteredCards.map((card) => (
                 <>
                   <Grid
                     item
@@ -103,7 +103,7 @@ const CardsContainer = (props) => {
                     sm={4}
                     md={4}
                     key={card._id}
-                    onClick={handleOpen}>
+                    onClick={() => handleDelete(card._id)}>
                     <Item>{card.question}</Item>
                   </Grid>
 
@@ -118,16 +118,11 @@ const CardsContainer = (props) => {
                         id="modal-modal-title"
                         variant="h6"
                         component="h2">
-                        Delete this flashcard?
+                        The flashcard has been deleted
                       </Typography>
                       <Stack spacing={2} direction="row" marginTop="2rem">
-                        <Button
-                          variant="outlined"
-                          onClick={() => handleDelete(card._id)}>
+                        <Button variant="outlined" onClick={handleClose}>
                           Confirm
-                        </Button>
-                        <Button variant="text" onClick={handleClose}>
-                          Cancel
                         </Button>
                       </Stack>
                     </Box>

@@ -14,7 +14,6 @@ const MainContainer = () => {
     <>
       <Wrapper>
         <NavBar />
-
         <CardsContainer />
       </Wrapper>
     </>
