@@ -4,6 +4,7 @@ const { nextTick } = require('process');
 const router = express.Router();
 
 const crashcodeController = require('../controllers/crashcodeController');
+const fs = require('fs');
 
 // controllers go here
 
@@ -11,13 +12,29 @@ const crashcodeController = require('../controllers/crashcodeController');
 router.post('/users/login',
   crashcodeController.authenticateUser, 
   (req, res) => {
-  res.status(200).json({userId: res.locals.userId, isLoggedIn: res.locals.isLoggedIn});
+  res.status(200).json({ userId: res.locals.userId, isLoggedIn: res.locals.isLoggedIn });
 });
 
 // addUser - '/users
-router.post('/users/signup', crashcodeController.addUser, (req, res) => {
-  res.status(200).json( {userId: res.locals.userId, signUpSuccessful: res.locals.signUpSuccessful, isLoggedIn: res.locals.isLoggedIn} );
+router.post('/users/signup', 
+  crashcodeController.addUser, 
+  // () => {
+  //   if (res.locals.signUpSuccessful === true) {
+  //     const cards = JSON.parse(fs.readFileSync(`../starterCards.json`));
+  //     cards.forEach((card) => {
+  //       card.user = res.locals.userId;
+
+  //     })
+  //   }
+  // }, 
+  (req, res) => {
+  res.status(200).json({ userId: res.locals.userId, signUpSuccessful: res.locals.signUpSuccessful, isLoggedIn: res.locals.isLoggedIn });
 });
+
+// authenticateUser - '/user'
+router.post('/users'), crashcodeController.authenticateUser, (req, res) => {
+    res.status(200).json(res.locals.userId);
+}
 
 // getCards - '/cards' // should take in user as parameter
 router.get('/cards', crashcodeController.getCards, (req, res) => {
