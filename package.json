@@ -21,6 +21,7 @@
     "@mui/material": "^5.6.2",
     "@reduxjs/toolkit": "^1.8.1",
     "@uiw/react-codemirror": "^4.7.0",
+    "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "codemirror": "^5.65.3",

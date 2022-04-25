@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useQuery, useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 import {
   Box,
@@ -106,6 +105,8 @@ const CardsContainer = () => {
         category={category}
         filteredCards={filteredCards}
         handleDelete={handleDelete}
+        fetchCards={fetchCards}
+        setAllCards={setAllCards}
       />
     </>
   );

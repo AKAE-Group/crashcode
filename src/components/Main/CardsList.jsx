@@ -10,9 +10,8 @@ import {
   Typography,
   Button,
   Stack,
+  TextField,
 } from '@mui/material';
-
-import { useQuery } from 'react-query';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -27,7 +26,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -42,51 +41,67 @@ const StyledCont = styled(Container)`
   margin-top: 2rem;
 `;
 
-const CardsList = ({ category, filteredCards, handleDelete }) => {
-  // const [allCards, setAllCards] = useState();
-  // const [filteredCards, setFilteredCards] = useState();
+const CardsList = ({
+  category,
+  filteredCards,
+  handleDelete,
+  fetchCards,
+  setAllCards,
+}) => {
+  const [selectedCard, setSelectedCard] = useState();
+  const [questionText, setQuestionText] = useState('');
+  const [answerText, setAnswerText] = useState('');
+  const [descriptionText, setDescriptionText] = useState('');
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // const handleDelete = (cardId) => {
-  //   // userId is hard-coded in for now. Need to change after auth is set up
-  //   console.log(cardId);
-  //   fetch(`/api/cards/6264847b0c004122dd1841f9/${cardId}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //     },
-  //   }).then(fetchCards());
-  //   handleOpen();
-  // };
+  const handleQuestionChange = (event) => {
+    setQuestionText(event.target.value);
+  };
+  const handleAnswerChange = (event) => {
+    setAnswerText(event.target.value);
+  };
+  const handleDescriptionChange = (event) => {
+    setDescriptionText(event.target.value);
+  };
 
-  // const fetchCards = () => {
-  //   fetch('/api/cards?id=6264847b0c004122dd1841f9')
-  //     .then((res) => res.json())
-  //     .then((data) => setAllCards(data));
-  // };
-
-  // useEffect(() => {
-  //   fetchCards();
-  // }, []);
-
-  // useEffect(() => {
-  //   const filtered = [];
-  //   if (allCards) {
-  //     for (const card of allCards) {
-  //       if (card.category === props.category) {
-  //         filtered.push(card);
-  //       }
-  //     }
-  //     setFilteredCards(filtered);
-  //   }
-  // }, [props.category, allCards]);
+  const updateCard = async (cardId) => {
+    const res = await fetch('/api/cards', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: '6264847b0c004122dd1841f9',
+        cardId: cardId,
+        category: category,
+        question: questionText,
+        description: descriptionText,
+        answer: answerText,
+      }),
+    }).then(fetchCards());
+    const cardsList = await res.json();
+    setAllCards(cardsList);
+  };
 
   const handleClick = (cardId) => {
-    handleDelete(cardId);
+    setSelectedCard(cardId);
+    // handleDelete(cardId);
     handleOpen();
+  };
+
+  const handleConfirm = () => {
+    handleDelete(selectedCard);
+    handleClose();
+  };
+
+  const handleSubmit = () => {
+    // insert POST request here, passing in selectedCard
+    updateCard(selectedCard);
+    setOpen(false);
   };
 
   return (
@@ -111,29 +126,66 @@ const CardsList = ({ category, filteredCards, handleDelete }) => {
                     onClick={() => handleClick(card._id)}>
                     <Item>{card.question}</Item>
                   </Grid>
-
-                  {/* Modal Popup When Flashcard is Clicked */}
-                  <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description">
-                    <Box sx={style}>
-                      <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2">
-                        The flashcard has been deleted
-                      </Typography>
-                      <Stack spacing={2} direction="row" marginTop="2rem">
-                        <Button variant="outlined" onClick={handleClose}>
-                          Confirm
-                        </Button>
-                      </Stack>
-                    </Box>
-                  </Modal>
                 </>
               ))}
+
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description">
+              <Box sx={style}>
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { m: 1, width: '50ch' },
+                  }}
+                  noValidate
+                  autoComplete="off">
+                  <div>
+                    <TextField
+                      id="question"
+                      label="Question"
+                      multiline
+                      maxRows={4}
+                      value={questionText}
+                      onChange={handleQuestionChange}
+                    />
+
+                    <TextField
+                      id="answer"
+                      label="Answer"
+                      multiline
+                      rows={4}
+                      value={answerText}
+                      onChange={handleAnswerChange}
+                    />
+                    <TextField
+                      id="description"
+                      label="Description"
+                      multiline
+                      rows={4}
+                      value={descriptionText}
+                      onChange={handleDescriptionChange}
+                    />
+                    <Button onClick={handleSubmit}>Update</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                  </div>
+                </Box>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  Delete this flashcard?
+                </Typography>
+                <Stack spacing={2} direction="row" marginTop="2rem">
+                  <Button variant="text" onClick={handleConfirm}>
+                    {/* <Button variant="outlined" onClick={handleClose}> */}
+                    Confirm
+                  </Button>
+                  <Button variant="outlined" onClick={handleClose}>
+                    Cancel
+                  </Button>
+                </Stack>
+              </Box>
+            </Modal>
           </Grid>
         </Box>
       </StyledCont>
