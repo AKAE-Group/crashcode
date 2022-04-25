@@ -8,27 +8,42 @@ const crashcodeController = require('../controllers/crashcodeController');
 
 // addUser - '/users
 router.post('/users', crashcodeController.addUser, (req, res) => {
-    res.status(200).json(res.locals.userId);
-})
+  res.status(200).json(res.locals.userId);
+});
 
 // getCards - '/cards' // should take in user as parameter
 router.get('/cards', crashcodeController.getCards, (req, res) => {
-    res.status(200).json(res.locals.cards);
-})
+  res.status(200).json(res.locals.cards);
+});
 
 // createCards - '/cards'
-router.post('/cards', crashcodeController.createCard, crashcodeController.getCards, (req, res,) => {
+router.post(
+  '/cards',
+  crashcodeController.createCard,
+  crashcodeController.getCards,
+  (req, res) => {
     res.status(200).json(res.locals.cards);
-})
+  }
+);
 
 // updateCard - '/cards/:id'
-router.put('/cards', crashcodeController.updateCard, crashcodeController.getCards, (req, res) => {
+router.put(
+  '/cards',
+  crashcodeController.updateCard,
+  crashcodeController.getCards,
+  (req, res) => {
     res.status(200).json(res.locals.cards);
-})
+  }
+);
 
 // removeCard - '/cards/:id'
-router.delete('/cards', crashcodeController.deleteCard, crashcodeController.getCards, (req, res) => {
+router.delete(
+  '/cards/:userId/:cardId',
+  crashcodeController.deleteCard,
+  crashcodeController.getCards,
+  (req, res) => {
     res.status(200).json(res.locals.cards);
-})
+  }
+);
 
 module.exports = router;

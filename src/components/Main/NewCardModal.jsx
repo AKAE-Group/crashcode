@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const NewCardModal = (props) => {
+const NewCardModal = ({ category, fetchCards }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -48,29 +48,20 @@ const NewCardModal = (props) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    });
-    const content = await res.json();
-
-    console.log(content); // response should be an array of updated Cards list
-  };
-
-  const handleSubmit = async () => {
-    const res = await fetch('/api/cards', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
         userId: '6264847b0c004122dd1841f9',
-        category: props.category,
+        category: category,
         question: questionText,
         description: descriptionText,
         answer: answerText,
       }),
-    });
+    }).then(fetchCards());
     const cardsList = await res.json();
     setAllCards(cardsList);
+  };
+
+  const handleSubmit = () => {
+    addCard();
     setOpen(false);
   };
 
@@ -107,7 +98,6 @@ const NewCardModal = (props) => {
                 rows={4}
                 value={answerText}
                 onChange={handleAnswerChange}
-                // defaultValue="Default Value"
               />
               <TextField
                 id="description"
@@ -116,7 +106,6 @@ const NewCardModal = (props) => {
                 rows={4}
                 value={descriptionText}
                 onChange={handleDescriptionChange}
-                // defaultValue="Default Value"
               />
               <Button onClick={handleSubmit}>Submit</Button>
               <Button onClick={handleClose}>Cancel</Button>

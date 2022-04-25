@@ -39,3 +39,33 @@ h3 {
   height: 75%;
   width: 75%;
 }
+
+.card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 0.25rem;
+  box-shadow: 0 0 5px 2px black;
+  background-color: white;
+  transform-style: preserve-3d;
+  height: 150px;
+  width: 150px;
+  transition: 150ms;
+  transform: perspective(1000px) rotateY(var(--rotate-y, 0));
+}
+
+.card.flip{
+  --rotate-y: 180deg;
+}
+
+.card .front,
+.card .back{
+  position: absolute;
+  padding: 1rem;
+  backface-visibility: hidden;
+}
+
+.card .back{
+  transform: rotateY(180deg);
+}
