@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-const clientId =
-  '870413778352-3vtpln31uiods5s2v0epiioj72i624k8.apps.googleusercontent.com';
+// Sign up for Google OAuth and insert your Client ID here:
+const clientId = 'YOUR CLIENT ID';
 
 function GoogleOAuth() {
   const [showloginButton, setShowloginButton] = useState(true);
